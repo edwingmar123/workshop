@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import './App.css'; 
+import React, { useState } from "react";
 
-function Principal() {
-  const [selectedImage, setSelectedImage] = useState("imagenes/images (1).jpeg");
+
+function Landing() {
+  const [selectedImage, setSelectedImage] = useState(
+    "imagenes/images (1).jpeg"
+  );
   const [quantity, setQuantity] = useState(0);
   const unitPrice = 60000;
 
@@ -11,7 +13,7 @@ function Principal() {
     "imagenes/images (2).jpeg",
     "imagenes/images (3).jpeg",
     "imagenes/images (4).jpeg",
-    "imagenes/images.jpeg"
+    "imagenes/images.jpeg",
   ];
 
   const handleImageClick = (src) => {
@@ -19,52 +21,59 @@ function Principal() {
   };
 
   const addToCart = () => {
-    setQuantity(prevQuantity => prevQuantity + 1);
+    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   return (
-    <div className="container">
-      <div id="numero" className="cantidad">
-        Cant {quantity}
+    <div className="landing-container">
+      <div className="left-column">
+        {images.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt={"Imagen ${index + 1}"}
+            className="thumbnail"
+            onClick={() => handleImageClick(src)}
+          />
+        ))}
       </div>
-      <div className="carrito">🛒</div>
 
-      <div className="product-info">
-        <label className="ropa">Saco Edwing</label>
-        <label className="saco">Ocean Blue Home - Saco Teddy</label>
+      <div className="center-column">
+        <img
+          src={selectedImage}
+          alt="Producto seleccionado"
+          className="main-image"
+        />
+      </div>
 
-        <div className="imagenes" id="ventas">
-          {images.map((src, index) => (
-            <div key={index} className="containerImg">
-              <img
-                className="img"
-                src={src}
-                alt={`Imagen ${index + 1}`}
-                onClick={() => handleImageClick(src)}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="right-column">
+        <h2 className="product-title">Saco Edwing</h2>
+        <p className="product-description">Ocean Blue Home - Saco Teddy</p>
+        <p className="price">$ {unitPrice.toLocaleString()}</p>
 
-        <div className="muestra" id="muestra">
-          <img className="pintur" src={selectedImage} alt="Imagen seleccionada" />
-        </div>
-
-        <div className="contenedortallas">
+        <div className="size-options">
           {["S", "M", "L", "XL", "XXL"].map((size, index) => (
-            <div key={index} className="tallas">{size}</div>
+            <button key={index} className="size-button">
+              {size}
+            </button>
           ))}
         </div>
 
-        <button className="btn" onClick={addToCart}>ADD TO BANG</button>
-      </div>
+        <button className="add-to-cart" onClick={addToCart}>
+          ADD TO CART
+        </button>
+        <button className="buy-now">BUY IT NOW</button>
 
-      <label className="precio">$60.000</label>
-      <div id="varios" className="acomulado">
-        Precio total a pagar: {quantity * unitPrice}
+        <p className="total-price">
+          Total: $ {(quantity * unitPrice).toLocaleString()}
+        </p>
+        <div className="cart-info">
+          <span>🛒</span>
+          <span>Cant: {quantity}</span>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Principal;
+export default Landing;
