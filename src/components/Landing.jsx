@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; 
+
 
 function Principal() {
   const [selectedImage, setSelectedImage] = useState("imagenes/images (1).jpeg");
