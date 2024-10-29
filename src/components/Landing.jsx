@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import "./App.css";
+import React, { useState } from 'react';
+import './App.css'; 
 
 function Principal() {
-  const [selectedImage, setSelectedImage] = useState(
-    "imagenes/images (1).jpeg"
-  );
+  const [selectedImage, setSelectedImage] = useState("imagenes/images (1).jpeg");
   const [quantity, setQuantity] = useState(0);
   const unitPrice = 60000;
 
@@ -13,7 +11,7 @@ function Principal() {
     "imagenes/images (2).jpeg",
     "imagenes/images (3).jpeg",
     "imagenes/images (4).jpeg",
-    "imagenes/images.jpeg",
+    "imagenes/images.jpeg"
   ];
 
   const handleImageClick = (src) => {
@@ -21,7 +19,7 @@ function Principal() {
   };
 
   const addToCart = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity(prevQuantity => prevQuantity + 1);
   };
 
   return (
@@ -49,24 +47,16 @@ function Principal() {
         </div>
 
         <div className="muestra" id="muestra">
-          <img
-            className="pintur"
-            src={selectedImage}
-            alt="Imagen seleccionada"
-          />
+          <img className="pintur" src={selectedImage} alt="Imagen seleccionada" />
         </div>
 
         <div className="contenedortallas">
           {["S", "M", "L", "XL", "XXL"].map((size, index) => (
-            <div key={index} className="tallas">
-              {size}
-            </div>
+            <div key={index} className="tallas">{size}</div>
           ))}
         </div>
 
-        <button className="btn" onClick={addToCart}>
-          ADD TO BANG
-        </button>
+        <button className="btn" onClick={addToCart}>ADD TO BANG</button>
       </div>
 
       <label className="precio">$60.000</label>
