@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-
-function Principal() {
+function Home() {
   const [selectedImage, setSelectedImage] = useState(
     "imagenes/images (1).jpeg"
   );
@@ -77,4 +76,4 @@ function Principal() {
   );
 }
 
-export default Principal;
+export default Home;
