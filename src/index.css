@@ -41,15 +41,14 @@ body {
 }
 
 .center-column {
-  flex: 1;
-  display: flex;
+  display: contents;
   justify-content: center;
   align-items: center;
 }
 
 .main-image {
-  width: 400px;
-  height: auto;
+  width: 250px;
+  height: 350px;
   border-radius: 8px;
   object-fit: cover;
 }
@@ -133,6 +132,13 @@ body {
 .tipo-Vertical {
   display: flex;
   float: left;
-  position: absolute;
-  left: 38%;
+  position: relative;
+  left: -105%;
+  top: -50%;
+}
+
+.carro {
+  position: relative;
+  left: 80%;
+  top: -20%;
 }
