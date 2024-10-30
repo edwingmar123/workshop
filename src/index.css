@@ -130,6 +130,9 @@ body {
   font-size: 18px;
 }
 
-.tipo-Vertical{
-  
+.tipo-Vertical {
+  display: flex;
+  float: left;
+  position: absolute;
+  left: 38%;
 }
