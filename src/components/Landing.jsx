@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import urlProductos from "../constants/Constante";
-import Modal from "react-bootstrap/Modal"; // Asegúrate de importar Modal si lo vas a usar
-import Button from "react-bootstrap/Button"; // Asegúrate de importar Button si lo vas a usar
 
 function Landing() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");
-  const [showModal, setShowModal] = useState(false); // Estado para el modal
+  
 
   useEffect(() => {
     if (collection.length > 0) {
@@ -27,17 +25,7 @@ function Landing() {
     setQuantity(0);
   };
 
-  const addToCart = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const handleBuyNow = () => {
-    setShowModal(true); // Abre el modal al hacer clic
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false); // Cierra el modal
-  };
+ 
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -64,7 +52,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={"Imagen ${index + 1}"} // Uso de comillas invertidas para la plantilla
+                alt={"Imagen ${index + 1}"} 
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -106,7 +94,7 @@ function Landing() {
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={"Imagen del producto ${index + 1}"} // Uso de comillas invertidas para la plantilla
+                  alt={"Imagen del producto ${index + 1}"} 
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />

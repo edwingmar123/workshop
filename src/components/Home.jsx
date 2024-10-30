@@ -137,9 +137,9 @@ function Home() {
             src={selectedProduct.imagen_1}
             alt="Imagen del producto"
             style={{
-              width: "120%",      // Ancho completo del contenedor
-              height: "330px",    // Altura fija
-              objectFit: "contain",  // Mantiene proporciones sin distorsión
+              width: "120%",      
+              height: "330px",    
+              objectFit: "contain",  
               marginBottom: "10px"
             }}
           />
