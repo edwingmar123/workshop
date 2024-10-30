@@ -7,7 +7,7 @@ import UseForm from '../hooks/UseForm'
 
 const Register = () => {
   const navigate = useNavigate();
-  const {datosFormulario, handleChange, reset } = UseForm({
+  const [datosFormulario, handleChange, reset ] = UseForm({
     id: crypto.randomUUID(),
     name: '',
     email: '',

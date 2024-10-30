@@ -3,6 +3,7 @@ import urlProductos from "../constants/Constante";
 import { Typography } from "@mui/material";
 
 
+import Footers from "../components/Footers";
 function Landing() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
@@ -30,8 +31,6 @@ function Landing() {
     setQuantity(0);
   };
 
- 
-
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
   if (collection.length === 0) return <p>No hay productos disponibles.</p>;
@@ -57,7 +56,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={"Imagen ${index + 1}"} 
+                alt={"Imagen ${index + 1}"}
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -92,8 +91,6 @@ function Landing() {
             ))}
           </div>
 
-          <Typography className="product-title"  sx={{position:'relative', margin:'2rem', marginLeft:'-250px'}}>YOU ALSO MAY LIKE </Typography>
-          
           <div className="cart-info">
            
             <div className="tipo-Vertical">
@@ -102,12 +99,13 @@ function Landing() {
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={"Imagen del producto ${index + 1}"} 
+                  alt={"Imagen del producto ${index + 1}"}
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
               ))}
             </div>
+            <Footers />
           </div>
         </div>
       </div>

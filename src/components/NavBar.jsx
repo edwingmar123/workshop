@@ -21,7 +21,8 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
     const logOut = () => {
         localStorage.setItem('isLoggedIn', false)
         setIsLoggedIn(false)
-        navigate('/login')
+        navigate('/')
+        
     }
 
     const userControl =()=>{

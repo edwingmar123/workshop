@@ -28,10 +28,10 @@ const Profile = () => {
           const response = await getData(`${urlUsers}/${idUser}`)
           setProfile(response.data)
           setUserData({
-            name: profile.name,
-            email: profile.email,
-            password: profile.password,
-            birthDate: response.birthDate,
+            name: response.data.name,
+            email: response.data.email,
+            password: response.data.password,
+            birthDate: response.data.birthDate,
         })
         console.log(userData)
 

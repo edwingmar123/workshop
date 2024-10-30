@@ -13,7 +13,7 @@ const UseForm = ({ initialState = {} }) => {
         setDatosFormulario(initialState);//le asigna el dato inicial
     }
 
-    return {datosFormulario, handleChange, reset}//array
+    return [datosFormulario, handleChange, reset]//array
 }
 
 

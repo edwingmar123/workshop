@@ -8,6 +8,7 @@ import Register from '../components/Register';
 
 import Dahsboard from './Dahsboard';
 import Private from './Private';
+import Footers from '../components/Footers';
 
 const AppRoutes = () => {
 
@@ -30,6 +31,7 @@ const AppRoutes = () => {
           <Dahsboard /></Private>}>
         </Route>
       </Routes>
+      <Footers/> 
     </BrowserRouter>
   )
 }

@@ -28,9 +28,9 @@ const Login = ({setIsLoggedIn}) => {
 
  
   //en vez de useState usar useForm hook personalizado
-  const {datosFormulario, handleChange,reset}=UseForm({
-    email:'',//email
-    pass:'',
+  const [datosFormulario, handleChange,reset] =UseForm({
+    email:'',
+    pass: '',
   });
 
   //no es neceario crear el handlechange porque viene del hook useform
@@ -51,6 +51,10 @@ const Login = ({setIsLoggedIn}) => {
       sessionStorage.setItem('idUser',respFind.id)
       setIsLoggedIn(true)
       navigate('/home')
+      if (respFind.email === 'Administrator@gmail.com'){
+          console.log('welcome admin')
+          localStorage.setItem('isAdminIn', 'true')
+      }
     } else {
       Swal.fire({
         icon: 'error',

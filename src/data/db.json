@@ -66,7 +66,7 @@
     {
       "id": 69,
       "name": "Administrator",
-      "email": "Administrator@gmail.com",
+      "email": "administrador@gmail.com",
       "password": "12345"
     },
     {
@@ -76,6 +76,14 @@
       "password": "123456",
       "productsBuyed": [],
       "birthDate": "28.08.1997"
+    },
+    {
+      "id": "c6a6209b-f954-4425-a371-1d423b6adebf",
+      "name": "Fernando",
+      "email": "fernando@gmail.com",
+      "password": "12345",
+      "productsBuyed": [],
+      "birthDate": ""
     }
   ]
 }
