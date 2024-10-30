@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import FreshPrince from '../assets/Príncipe fresco.png'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -22,13 +23,17 @@ export default function NavBar() {
                     <Typography component="div" sx={{ flexGrow: 1, width: '200px' }}>
                         <img src={FreshPrince} height={'40px'} />
                     </Typography>
-                    <div style={{ display: 'flex', flexDirection: 'row',  flexGrow:1 }}>
-                        <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d' }}>
-                            SHOP
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'space-evenly',  flexGrow:1 }}>
+                        <NavLink>
+                        <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d'}}>
+                            SHOP 
                         </Typography>
+                        </NavLink> <br/>
+                        <NavLink>
                         <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d' }}>
                             COLLECTIONS
                         </Typography>
+                        </NavLink>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row-reverse', flexGrow:1 }}>
                         
