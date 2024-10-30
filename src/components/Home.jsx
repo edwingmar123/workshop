@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import urlProductos from "../constants/Constante";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Footers from "../components/Footers";
 
 function Home() {
   const { collection, loading, error } = urlProductos();
@@ -157,6 +158,7 @@ function Home() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Footers />
     </div>
   );
 }

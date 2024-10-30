@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import urlProductos from "../constants/Constante";
-
+import Footers from "../components/Footers";
 function Landing() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");
-  
 
   useEffect(() => {
     if (collection.length > 0) {
@@ -24,8 +23,6 @@ function Landing() {
     setSelectedImage(product.imagen_1);
     setQuantity(0);
   };
-
- 
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -52,7 +49,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={"Imagen ${index + 1}"} 
+                alt={"Imagen ${index + 1}"}
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -87,19 +84,19 @@ function Landing() {
             ))}
           </div>
 
-          
           <div className="cart-info">
             <div className="tipo-Vertical">
               {collection.map((item, index) => (
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={"Imagen del producto ${index + 1}"} 
+                  alt={"Imagen del producto ${index + 1}"}
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
               ))}
             </div>
+            <Footers />
           </div>
         </div>
       </div>

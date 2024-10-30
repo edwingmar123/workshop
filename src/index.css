@@ -142,3 +142,61 @@ body {
   left: 80%;
   top: -20%;
 }
+
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  width: 20%;
+  background-image: url("/src/assets/cover.png");
+  z-index: 1;
+  width: 40%;
+
+  background-size: cover;
+  background-position: center;
+  color: #0f0f0f;
+  top: 92%;
+  left: 30%;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.footer-nav {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-item {
+  font-size: 14px;
+}
+
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #cccccc;
+}
