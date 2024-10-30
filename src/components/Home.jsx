@@ -3,7 +3,7 @@ import urlProductos from "../constants/Constante";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function Landing() {
+function Home() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState({});
@@ -32,11 +32,11 @@ function Landing() {
   };
 
   const handleBuyNow = () => {
-    setShowModal(true); 
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false); 
+    setShowModal(false);
   };
 
   if (loading) return <p>Cargando...</p>;
@@ -53,7 +53,12 @@ function Landing() {
       </div>
       <div className="landing-container">
         <div className="left-column">
-          {[selectedProduct.imagen_1, selectedProduct.imagen_2, selectedProduct.imagen_3, selectedProduct.imagen_4]
+          {[
+            selectedProduct.imagen_1,
+            selectedProduct.imagen_2,
+            selectedProduct.imagen_3,
+            selectedProduct.imagen_4,
+          ]
             .filter((src) => src)
             .map((src, index) => (
               <img
@@ -84,7 +89,10 @@ function Landing() {
           </p>
 
           <div className="size-options">
-            {(Array.isArray(selectedProduct.tallas) ? selectedProduct.tallas : []).map((size, index) => (
+            {(Array.isArray(selectedProduct.tallas)
+              ? selectedProduct.tallas
+              : []
+            ).map((size, index) => (
               <button key={index} className="size-button">
                 {size}
               </button>
@@ -115,13 +123,26 @@ function Landing() {
         </div>
       </div>
 
-      {/* Modal */}
-      <Modal show={showModal} onHide={handleCloseModal} backdrop="static" keyboard={false}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Detalles del Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={selectedProduct.imagen_1} alt="Imagen del producto" style={{ width: "100%", marginBottom: "10px" }} />
+          <img
+            src={selectedProduct.imagen_1}
+            alt="Imagen del producto"
+            style={{
+              width: "120%",      
+              height: "330px",    
+              objectFit: "contain",  
+              marginBottom: "10px"
+            }}
+          />
           <h2>{selectedProduct.nombre}</h2>
           <p>Precio: $ {selectedProduct.precio?.toLocaleString() || "Sin precio"}</p>
           <p>Cantidad: {quantity}</p>
@@ -140,4 +161,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Home;

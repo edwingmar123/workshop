@@ -11,6 +11,8 @@ function Landing() {
 
   localStorage.setItem('collections', JSON.stringify(collection))
 
+  
+
   useEffect(() => {
     if (collection.length > 0) {
       setSelectedProduct(collection[0]);
@@ -28,9 +30,7 @@ function Landing() {
     setQuantity(0);
   };
 
-  const addToCart = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
+ 
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -57,7 +57,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={'Imagen ${index + 1}'}
+                alt={"Imagen ${index + 1}"} 
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -92,8 +92,8 @@ function Landing() {
             ))}
           </div>
 
-
           <Typography className="product-title"  sx={{position:'relative', margin:'2rem', marginLeft:'-250px'}}>YOU ALSO MAY LIKE </Typography>
+          
           <div className="cart-info">
            
             <div className="tipo-Vertical">
@@ -102,7 +102,7 @@ function Landing() {
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={'Imagen del producto ${index + 1}'}
+                  alt={"Imagen del producto ${index + 1}"} 
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
