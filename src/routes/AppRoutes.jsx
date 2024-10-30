@@ -5,6 +5,8 @@ import Home from '../components/Home';
 import NavBar from '../components/NavBar';
 import Login from '../components/Login';
 import Register from '../components/Register';
+import Collection from '../components/Collection';
+import Profile from '../components/Profile';
 
 const AppRoutes = () => {
 
@@ -22,8 +24,8 @@ const AppRoutes = () => {
             <Route path='/login' element={<Login/>} />
             <Route path='/register' element={<Register/>} />
             <Route path='/home' element={<Home/>} />
-
-
+            <Route path='/collection' element={<Collection/>}/>
+            <Route path='/profile' element={<Profile/>}/>
         </Routes>        
     </BrowserRouter>
   )

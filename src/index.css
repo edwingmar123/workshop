@@ -1,3 +1,4 @@
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: #333;
@@ -43,15 +44,15 @@ a{
 }
 
 .center-column {
-  flex: 1;
-  display: flex;
+  display: contents;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .main-image {
-  width: 400px;
-  height: auto;
+  width: 250px;
+  height: 350px;
   border-radius: 8px;
   object-fit: cover;
 }
@@ -132,3 +133,16 @@ a{
   font-size: 18px;
 }
 
+.tipo-Vertical {
+  display: flex;
+  float: left;
+  position: relative;
+  left: -105%;
+  top: -50%;
+}
+
+.carro {
+  position: relative;
+  left: 80%;
+  top: -20%;
+}

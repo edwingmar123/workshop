@@ -1,110 +1,113 @@
 import React, { useState, useEffect } from "react";
 import urlProductos from "../constants/Constante";
+import { Typography } from "@mui/material";
+
 
 function Landing() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState({});
+  const [selectedImage, setSelectedImage] = useState("");
 
-  const product = collection[0] || {};
-  const [selectedImage, setSelectedImage] = useState(product.imagen_1 || "");
+  localStorage.setItem('collections', JSON.stringify(collection))
 
   useEffect(() => {
-    if (product && product.imagen_1) {
-      setSelectedImage(product.imagen_1);
+    if (collection.length > 0) {
+      setSelectedProduct(collection[0]);
+      setSelectedImage(collection[0].imagen_1);
     }
-  }, [product]);
-
-  console.log('imagen ',product.imagen_1)
+  }, [collection]);
 
   const handleImageClick = (src) => {
     setSelectedImage(src);
   };
 
-  const addToCart = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1); 
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setSelectedImage(product.imagen_1);
+    setQuantity(0);
   };
 
-  
+  const addToCart = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
   if (collection.length === 0) return <p>No hay productos disponibles.</p>;
 
-  
-  const totalPrice = quantity * (product.precio || 0);
+  const totalPrice = quantity * (selectedProduct.precio || 0);
 
   return (
-    <div className="landing-container">
-      
-      <div className="left-column">
-        {[
-          product.imagen_1,
-          product.imagen_2,
-          product.imagen_3,
-          product.imagen_4,
-        ]
-          .filter((src) => src)
-          .map((src, index) => (
-            console.log(src),
-            <img
-              key={index}
-              src={src}
-              alt={`Imagen ${index + 1}`}
-              className="thumbnail"
-              onClick={() => handleImageClick(src)}
-            />
-          ))}
+    <div>
+      <div className="carro">
+        <span className="carrito">🛒</span>
+        <span className="cantidad">Cant: {quantity}</span>
       </div>
-
-      <div className="center-column">
-        <img
-          src={selectedImage}
-          alt="Producto seleccionado"
-          className="main-image"
-        />
-      </div>
-
-      <div className="right-column">
-        <h2 className="product-title">{product.nombre}</h2>
-        <p className="product-description">{product.descripcion}</p>
-        <p className="price">$ {product.precio?.toLocaleString()}</p>
-
-        <div className="size-options">
-          {(Array.isArray(product.tallas) ? product.tallas : []).map((size, index) => (
-            <button key={index} className="size-button">
-              {size}
-            </button>
-          ))}
+      <div className="landing-container">
+        <div className="left-column">
+          {[
+            selectedProduct.imagen_1,
+            selectedProduct.imagen_2,
+            selectedProduct.imagen_3,
+            selectedProduct.imagen_4,
+          ]
+            .filter((src) => src)
+            .map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={'Imagen ${index + 1}'}
+                className="thumbnail"
+                onClick={() => handleImageClick(src)}
+              />
+            ))}
         </div>
 
-        <button className="add-to-cart" onClick={addToCart}>
-          ADD TO CART
-        </button>
-        <button className="buy-now">BUY IT NOW</button>
+        <div className="center-column">
+          <img
+            src={selectedImage}
+            alt="Producto seleccionado"
+            className="main-image"
+          />
+        </div>
 
-        <p className="total-price">
-          Total: $ {totalPrice.toLocaleString()}
-        </p>
-        <div className="cart-info">
-          <span>🛒</span>
-          <span>Cant: {quantity}</span>
+        <div className="right-column">
+          <h2 className="product-title">{selectedProduct.nombre}</h2>
+          <p className="product-description">{selectedProduct.descripcion}</p>
+          <p className="price">
+            {selectedProduct.precio
+              ? `$ ${selectedProduct.precio.toLocaleString()}`
+              : "Sin precio"}
+          </p>
 
-          <div className="tipo-Vertical">
-            {[
-              product.imagen_1,
-              product.imagen_2,
-              product.imagen_3,
-              product.imagen_4,
-            ]
-              .filter((src) => src)
-              .map((src, index) => (
+          <div className="size-options">
+            {(Array.isArray(selectedProduct.tallas)
+              ? selectedProduct.tallas
+              : []
+            ).map((size, index) => (
+              <button key={index} className="size-button">
+                {size}
+              </button>
+            ))}
+          </div>
+
+
+          <Typography className="product-title"  sx={{position:'relative', margin:'2rem', marginLeft:'-250px'}}>YOU ALSO MAY LIKE </Typography>
+          <div className="cart-info">
+           
+            <div className="tipo-Vertical">
+            
+              {collection.map((item, index) => (
                 <img
                   key={index}
-                  src={src}
-                  alt={`Imagen ${index + 1}`}
+                  src={item.imagen_1}
+                  alt={'Imagen del producto ${index + 1}'}
                   className="thumbnail"
-                  onClick={() => handleImageClick(src)}
+                  onClick={() => handleProductClick(item)}
                 />
               ))}
+            </div>
           </div>
         </div>
       </div>
