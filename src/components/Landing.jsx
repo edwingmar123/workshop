@@ -27,8 +27,12 @@ function Landing() {
 
   const addToCart = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
+    console.log(quantity, totalPrice);
   };
 
+  useEffect(() => {
+    
+  }, [selectedProduct]);
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
   if (collection.length === 0) return <p>No hay productos disponibles.</p>;
