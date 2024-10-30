@@ -1,45 +1,56 @@
-import { Box, Button, Paper, TextField, Typography } from '@mui/material'
-import React, {useEffect, useState} from 'react'
-import useForm from '../hooks/useForm'
-import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useAppContext } from './Appcontext';
+import { Link, useNavigate } from 'react-router-dom';
+import UseForm from '../hooks/UseForm';
+import Swal from 'sweetalert2';
+import { getData } from '../helpers/getData';
 
-import { urlUsers } from '../constants/constant'
 
-const Login = ({ setIsLoggedIn }) => {
 
-  const [users, setUsers] = useState([])
+const Login = ({setIsLoggedIn}) => {
+  const url_usuarios = 'http://localhost:3000/users';
+  const {loged, setLoged} = useAppContext();
+  const [datosUser, setDatosUser]=useState();
+
   const navigate = useNavigate()
 
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await fetch(urlUsers).then(response => response.json())
-        console.log(users)
-        setUsers(users)
-      } catch (error) {
-        console.error(error)
-      }
+     const carga= async()=> {
+      const users = await getData(url_usuarios);
+      {/*console.log('useeffects__')
+      console.log(users);*/}
+      setDatosUser(users.data);
+    
     }
+    carga();
+  }, []);
 
-    fetchUsers()
-  }, [])
+ 
+  //en vez de useState usar useForm hook personalizado
+  const {datosFormulario, handleChange,reset}=UseForm({
+    email:'',//email
+    pass:'',
+  });
 
-  const { formValues, handleInputChange, resetFormValues } = useForm({
-    email: '',
-    password: ''
-  })
+  //no es neceario crear el handlechange porque viene del hook useform
+  const  handleSubmit= async (e)=>{
+    e.preventDefault();
+    {/*console.log(datosFormulario.tel);
+    console.log(datosFormulario.pass);*/}
+    console.log(datosUser)
+    const respFind = datosUser.find(
+      (fi) =>
+        fi.email === datosFormulario.email && fi.password === datosFormulario.pass
+    );
+    console.log(respFind)
+    setLoged(respFind)
 
-  const userLogin = async e => {
-    e.preventDefault()
-    const userExists = users.find(
-      u => u.email === formValues.email && u.password === formValues.password
-    )
-  
-    if (userExists) {
+    if (respFind) {
       localStorage.setItem('isLoggedIn', 'true')
+      sessionStorage.setItem('idUser',respFind.id)
       setIsLoggedIn(true)
-      navigate('/')
+      navigate('/home')
     } else {
       Swal.fire({
         icon: 'error',
@@ -48,55 +59,64 @@ const Login = ({ setIsLoggedIn }) => {
         timer: 1500
       })
     }
-    resetFormValues()
   }
 
+  
+
+
+
   return (
-    <Paper
-      component='div'
-      sx={{
-        height: 'calc(100vh - 4rem)',
-        textAlign: 'center',
-        placeContent: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Typography variant='h3'>Inicio de Sesión</Typography>
-      <Paper
-        component='form'
-        noValidate
-        autoComplete='off'
-        onSubmit={userLogin}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '2rem',
-          gap: '1rem'
-        }}
-      >
-        <TextField
-          type='email'
-          id='email'
-          name='email'
-          variant='outlined'
-          label='Ingrese Email'
-          onChange={handleInputChange}
-          value={formValues.email}
-        />
-        <TextField
-          type='password'
-          id='password'
-          name='password'
-          variant='outlined'
-          label='Ingrese contraseña'
-          onChange={handleInputChange}
-          value={formValues.password}
-        />
-        <Button variant='outlined' type='submit'>
-          Ingresar
-        </Button>
-      </Paper>
-    </Paper>
+      <>
+        <div>
+          <div  style={{ textAlign: 'center', fontFamily:'Inter', color:'#4B4B4B',width:'100%' }}>
+            <div style={{fontSize:'24px', fontWeight:'700', marginTop:'70px', textAlign:'left'}}>
+                Welcome back {loged}
+            </div>
+            <div style={{fontSize:'14px', fontWeight:'400',  textAlign:'left'}}>  
+                Sign in to an existing account
+                using your phone number
+            </div>
+
+            <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1rem', margin:'2rem'}}>
+                <input className='Input'
+                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder="Ingrese el nombre del usuario"
+                            onChange={handleChange}
+                            required
+                />
+
+                <input className='Input'
+                    type="password"
+                    id="pass"
+                    name="pass"
+                    placeholder="Ingrese Password"
+                    onChange={handleChange}
+                    required
+                />
+                <div  className='fix-bot' style={{padding:'20px'}}>    
+                    <button style={{
+                        marginTop: '10px',  // Espacio entre imagen y botón
+                        padding: '10px 20px', // Ajuste opcional del botón
+                        display: 'inline-block',
+                        background: 'linear-gradient(to right, #BFC3FC, #A2C3FC)', // Gradient background
+                        width:'100%',
+                        fontSize:'14px',
+                        fontWeight:'400',
+                        color:'#4B4B4B'
+                        }}>Login</button>
+                    <div style={{marginTop:'10px'}} >Don't have account? 
+                        <Link to='/register' className='custom-link'>
+                          Sign up 
+                        </Link>
+                    </div>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </>    
   )
 }
 

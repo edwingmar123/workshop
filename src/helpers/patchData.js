@@ -2,7 +2,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export const patchData = async (url, id, obj, requestType) => {
-  const message = requestType === "patch" ? "Personaje añadido exitosamente" : "Personaje eliminado exitosamente"
+  const message = requestType === "patch" ? "Perfil modificado exitosamente" : "Personaje eliminado exitosamente"
   await axios.patch(`${url}/${id}`, obj)
   .then(function (response) {
     if (response && response.status === 200) {

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Landing from '../components/Landing'
-import Home from '../components/Home';
+
 import NavBar from '../components/NavBar';
 import Login from '../components/Login';
 import Register from '../components/Register';
-import Collection from '../components/Collection';
-import Profile from '../components/Profile';
+
+import Dahsboard from './Dahsboard';
+import Private from './Private';
 
 const AppRoutes = () => {
 
@@ -18,15 +19,17 @@ const AppRoutes = () => {
 
   return (
     <BrowserRouter>
-        <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-        <Routes>
-            <Route path='/' element={<Landing/>} />
-            <Route path='/login' element={<Login/>} />
-            <Route path='/register' element={<Register/>} />
-            <Route path='/home' element={<Home/>} />
-            <Route path='/collection' element={<Collection/>}/>
-            <Route path='/profile' element={<Profile/>}/>
-        </Routes>        
+      <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Routes>
+        <Route path='/' element={<Landing />} />
+        <Route path='/login' element={!isLoggedIn ? (<Login setIsLoggedIn={setIsLoggedIn} />) : (<Navigate to='/home' />)} />
+        <Route path='/register' element={<Register />} />
+
+        {/* Rutas Privadas */}
+        <Route path='/*' element={<Private isAuthenticated={isLoggedIn}>
+          <Dahsboard /></Private>}>
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }

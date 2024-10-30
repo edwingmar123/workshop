@@ -9,11 +9,30 @@ import MenuIcon from '@mui/icons-material/Menu';
 import FreshPrince from '../assets/Príncipe fresco.png'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import { NavLink } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 
 
 
-export default function NavBar() {
+
+export default function NavBar({ isLoggedIn, setIsLoggedIn }) {
+    const navigate = useNavigate()
+
+    const logOut = () => {
+        localStorage.setItem('isLoggedIn', false)
+        setIsLoggedIn(false)
+        navigate('/login')
+    }
+
+    const userControl =()=>{
+        if(isLoggedIn){
+            navigate('/profile')
+        }else{
+            navigate('/login')
+        }
+    }
+
+    console.log(isLoggedIn)
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -21,24 +40,32 @@ export default function NavBar() {
                 <Toolbar >
 
                     <Typography component="div" sx={{ flexGrow: 1, width: '200px' }}>
+                        <NavLink to={'/'}>
                         <img src={FreshPrince} height={'40px'} />
-                    </Typography>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'space-evenly',  flexGrow:1 }}>
-                        <NavLink>
-                        <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d'}}>
-                            SHOP 
-                        </Typography>
-                        </NavLink> <br/>
-                        <NavLink>
-                        <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d' }}>
-                            COLLECTIONS
-                        </Typography>
                         </NavLink>
+                    </Typography>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', flexGrow: 1 }}>
+                        {isLoggedIn && (
+                            <>
+                                <NavLink to={'/home'}>
+                                    <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d' }}>
+                                        SHOP
+                                    </Typography>
+                                </NavLink> <br />
+                                <NavLink to={'/collection'}>
+                                    <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d' }}>
+                                        COLLECTIONS
+                                    </Typography>
+                                </NavLink>
+                            </>
+                        )}
+
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'row-reverse', flexGrow:1 }}>
-                        
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse', flexGrow: 1 }}>
+                        <Button onClick={logOut} color='error'><LogoutIcon /> </Button>
                         <Button><ShoppingBagOutlinedIcon /></Button>
-                        <Button><PersonOutlineOutlinedIcon /></Button>
+                        <Button onClick={userControl}><PersonOutlineOutlinedIcon /></Button>
+
                     </div>
                 </Toolbar>
             </AppBar>
