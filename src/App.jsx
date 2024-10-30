@@ -9,7 +9,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route index path="/" element={<landing />} />
+          <Route index path="/" element={<Landing />} />
 
           <Route path="/home" element={<Home />} />
         </Routes>
