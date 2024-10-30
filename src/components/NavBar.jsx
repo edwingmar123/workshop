@@ -19,10 +19,10 @@ export default function NavBar() {
             <AppBar position="static" sx={{ backgroundColor: '#FFFFFF' }}>
                 <Toolbar >
 
-                    <Typography  component="div" sx={{ flexGrow: 0.1, width: '200px' }}>
+                    <Typography component="div" sx={{ flexGrow: 1, width: '200px' }}>
                         <img src={FreshPrince} height={'40px'} />
                     </Typography>
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row',  flexGrow:1 }}>
                         <Typography variant="body1" component="div" sx={{ flexGrow: 1, color: '#1d1d1d' }}>
                             SHOP
                         </Typography>
@@ -30,9 +30,10 @@ export default function NavBar() {
                             COLLECTIONS
                         </Typography>
                     </div>
-                    <div>
-                        <Button><PersonOutlineOutlinedIcon /></Button>
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse', flexGrow:1 }}>
+                        
                         <Button><ShoppingBagOutlinedIcon /></Button>
+                        <Button><PersonOutlineOutlinedIcon /></Button>
                     </div>
                 </Toolbar>
             </AppBar>
