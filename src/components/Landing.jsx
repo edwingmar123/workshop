@@ -4,16 +4,16 @@ import urlProductos from "../constants/Constante";
 function Landing() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState(collection[0] || {});
-  const [selectedImage, setSelectedImage] = useState(
-    selectedProduct.imagen_1 || ""
-  );
+  const [selectedProduct, setSelectedProduct] = useState({});
+  const [selectedImage, setSelectedImage] = useState("");
 
+  
   useEffect(() => {
-    if (selectedProduct && selectedProduct.imagen_1) {
-      setSelectedImage(selectedProduct.imagen_1);
+    if (collection.length > 0) {
+      setSelectedProduct(collection[0]); 
+      setSelectedImage(collection[0].imagen_1); 
     }
-  }, [selectedProduct]);
+  }, [collection]);
 
   const handleImageClick = (src) => {
     setSelectedImage(src);
@@ -27,12 +27,8 @@ function Landing() {
 
   const addToCart = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
-    console.log(quantity, totalPrice);
   };
 
-  useEffect(() => {
-    
-  }, [selectedProduct]);
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
   if (collection.length === 0) return <p>No hay productos disponibles.</p>;
@@ -40,10 +36,10 @@ function Landing() {
   const totalPrice = quantity * (selectedProduct.precio || 0);
 
   return (
-    <div >
+    <div>
       <div className="carro">
-      <span className="carrito">🛒</span>
-      <span className="cantidad">Cant: {quantity}</span>
+        <span className="carrito">🛒</span>
+        <span className="cantidad">Cant: {quantity}</span>
       </div>
       <div className="landing-container">
         <div className="left-column">
@@ -58,7 +54,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={"Imagen ${index + 1}"}
+                alt={'Imagen ${index + 1}'}
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -105,7 +101,7 @@ function Landing() {
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={"Imagen del producto ${index + 1}"}
+                  alt={'Imagen del producto ${index + 1}'}
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
