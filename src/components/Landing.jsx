@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import urlProductos from "../constants/Constante";
+import Modal from "react-bootstrap/Modal"; // Asegúrate de importar Modal si lo vas a usar
+import Button from "react-bootstrap/Button"; // Asegúrate de importar Button si lo vas a usar
 
 function Landing() {
   const { collection, loading, error } = urlProductos();
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");
+  const [showModal, setShowModal] = useState(false); // Estado para el modal
 
-  
   useEffect(() => {
     if (collection.length > 0) {
-      setSelectedProduct(collection[0]); 
-      setSelectedImage(collection[0].imagen_1); 
+      setSelectedProduct(collection[0]);
+      setSelectedImage(collection[0].imagen_1);
     }
   }, [collection]);
 
@@ -27,6 +29,14 @@ function Landing() {
 
   const addToCart = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleBuyNow = () => {
+    setShowModal(true); // Abre el modal al hacer clic
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // Cierra el modal
   };
 
   if (loading) return <p>Cargando...</p>;
@@ -54,7 +64,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={'Imagen ${index + 1}'}
+                alt={"Imagen ${index + 1}"} // Uso de comillas invertidas para la plantilla
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -89,19 +99,14 @@ function Landing() {
             ))}
           </div>
 
-          <button className="add-to-cart" onClick={addToCart}>
-            ADD TO CART
-          </button>
-          <button className="buy-now">BUY IT NOW</button>
-
-          <p className="total-price">Total: $ {totalPrice.toLocaleString()}</p>
+          
           <div className="cart-info">
             <div className="tipo-Vertical">
               {collection.map((item, index) => (
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={'Imagen del producto ${index + 1}'}
+                  alt={"Imagen del producto ${index + 1}"} // Uso de comillas invertidas para la plantilla
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
