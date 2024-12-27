@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from "react";
-import urlProductos from "../constants/Constante";
+import { db } from "../data/db";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Footers from "../components/Footers";
 
 function Home() {
-  const { collection, loading, error } = urlProductos();
+  const [collection, setCollection] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  // Simulamos la carga de datos
   useEffect(() => {
-    if (collection.length > 0) {
-      setSelectedProduct(collection[0]);
-      setSelectedImage(collection[0].imagen_1);
+    try {
+      // Simula una llamada para obtener la colección
+      const fetchData = async () => {
+        // Aquí puedes simular un delay para representar una API
+        const data = db.collection || [];
+        setCollection(data);
+        if (data.length > 0) {
+          setSelectedProduct(data[0]);
+          setSelectedImage(data[0].imagen_1);
+        }
+        setLoading(false);
+      };
+
+      fetchData();
+    } catch (err) {
+      setError("Error al cargar los productos.");
+      setLoading(false);
     }
-  }, [collection]);
+  }, []);
 
   const handleImageClick = (src) => {
     setSelectedImage(src);
@@ -65,7 +82,7 @@ function Home() {
               <img
                 key={index}
                 src={src}
-                alt={'Imagen ${index + 1}'}
+                alt={`Imagen ${index + 1}`}
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -114,7 +131,7 @@ function Home() {
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={'Imagen del producto ${index + 1}'}
+                  alt={`Imagen del producto ${index + 1}`}
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
@@ -138,14 +155,16 @@ function Home() {
             src={selectedProduct.imagen_1}
             alt="Imagen del producto"
             style={{
-              width: "120%",      
-              height: "330px",    
-              objectFit: "contain",  
-              marginBottom: "10px"
+              width: "100%",
+              height: "330px",
+              objectFit: "contain",
+              marginBottom: "10px",
             }}
           />
           <h2>{selectedProduct.nombre}</h2>
-          <p>Precio: $ {selectedProduct.precio?.toLocaleString() || "Sin precio"}</p>
+          <p>
+            Precio: $ {selectedProduct.precio?.toLocaleString() || "Sin precio"}
+          </p>
           <p>Cantidad: {quantity}</p>
           <p>Total: $ {totalPrice.toLocaleString()}</p>
         </Modal.Body>

@@ -1,127 +1,115 @@
-import React, { useEffect, useState } from 'react'
-import { useAppContext } from './Appcontext';
-import { Link, useNavigate } from 'react-router-dom';
-import UseForm from '../hooks/UseForm';
-import Swal from 'sweetalert2';
-import { getData } from '../helpers/getData';
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { db } from "../data/db";
+import UseForm from "../Hooks/UseForm";
+import Swal from "sweetalert2";
 
+const Login = () => {
+  const navigate = useNavigate();
 
-
-const Login = ({setIsLoggedIn}) => {
-  const url_usuarios = 'http://localhost:3000/users';
-  const {loged, setLoged} = useAppContext();
-  const [datosUser, setDatosUser]=useState();
-
-  const navigate = useNavigate()
-
-
-  useEffect(() => {
-     const carga= async()=> {
-      const users = await getData(url_usuarios);
-      {/*console.log('useeffects__')
-      console.log(users);*/}
-      setDatosUser(users.data);
-    
-    }
-    carga();
-  }, []);
-
- 
-  //en vez de useState usar useForm hook personalizado
-  const [datosFormulario, handleChange,reset] =UseForm({
-    email:'',
-    pass: '',
+  // Estado para manejar las credenciales del formulario
+  const [credentials, handleChange, reset] = UseForm({
+    email: "",
+    password: "",
   });
 
-  //no es neceario crear el handlechange porque viene del hook useform
-  const  handleSubmit= async (e)=>{
+  const handleLogin = (e) => {
     e.preventDefault();
-    {/*console.log(datosFormulario.tel);
-    console.log(datosFormulario.pass);*/}
-    console.log(datosUser)
-    const respFind = datosUser.find(
-      (fi) =>
-        fi.email === datosFormulario.email && fi.password === datosFormulario.pass
-    );
-    console.log(respFind)
-    setLoged(respFind)
 
-    if (respFind) {
-      localStorage.setItem('isLoggedIn', 'true')
-      sessionStorage.setItem('idUser',respFind.id)
-      setIsLoggedIn(true)
-      navigate('/home')
-      if (respFind.email === 'Administrator@gmail.com'){
-          console.log('welcome admin')
-          localStorage.setItem('isAdminIn', 'true')
+    try {
+      // Buscar al usuario en la base de datos simulada
+      const user = db.users.find(
+        (user) =>
+          user.email === credentials.email &&
+          user.password === credentials.password
+      );
+
+      if (user) {
+        // Mostrar un mensaje de bienvenida
+        Swal.fire({
+          icon: "success",
+          title: "Inicio de sesión exitoso",
+          text: `¡Bienvenido, ${user.name}!`,
+        });
+
+        navigate("/home");
+
+        reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error de inicio de sesión",
+          text: "Credenciales incorrectas. Por favor, verifica tu email y contraseña.",
+        });
       }
-    } else {
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
       Swal.fire({
-        icon: 'error',
-        title: 'Email o Contraseña Incorrectos',
-        showConfirmButton: false,
-        timer: 1500
-      })
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema con el inicio de sesión. Inténtalo más tarde.",
+      });
     }
-  }
-
-  
-
-
+  };
 
   return (
-      <>
-        <div>
-          <div  style={{ textAlign: 'center', fontFamily:'Inter', color:'#4B4B4B',width:'100%' }}>
-            <div style={{fontSize:'24px', fontWeight:'700', marginTop:'70px', textAlign:'left'}}>
-                Welcome back {loged}
-            </div>
-            <div style={{fontSize:'14px', fontWeight:'400',  textAlign:'left'}}>  
-                Sign in to an existing account
-                using your phone number
-            </div>
+    <Paper
+      component="div"
+      sx={{
+        height: "calc(100vh - 4rem)",
+        textAlign: "center",
+        placeContent: "center",
+        justifyContent: "center",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
+      <Typography variant="h3">Inicio de Sesión</Typography>
+      <Paper
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={handleLogin}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "2rem",
+          gap: "1rem",
+        }}
+      >
+        <TextField
+          type="email"
+          id="email"
+          name="email"
+          variant="outlined"
+          label="Ingrese Email"
+          onChange={handleChange}
+          value={credentials.email}
+          required
+        />
+        <TextField
+          type="password"
+          id="password"
+          name="password"
+          variant="outlined"
+          label="Ingrese Contraseña"
+          onChange={handleChange}
+          value={credentials.password}
+          required
+        />
+        <Button variant="outlined" type="submit">
+          Iniciar Sesión
+        </Button>
+      </Paper>
 
-            <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1rem', margin:'2rem'}}>
-                <input className='Input'
-                            type="text"
-                            id="email"
-                            name="email"
-                            placeholder="Ingrese el nombre del usuario"
-                            onChange={handleChange}
-                            required
-                />
+      <Typography variant="body2">
+        ¿No tienes una cuenta?{" "}
+        <Button onClick={() => navigate("/register")}>Regístrate</Button>
+      </Typography>
+    </Paper>
+  );
+};
 
-                <input className='Input'
-                    type="password"
-                    id="pass"
-                    name="pass"
-                    placeholder="Ingrese Password"
-                    onChange={handleChange}
-                    required
-                />
-                <div  className='fix-bot' style={{padding:'20px'}}>    
-                    <button style={{
-                        marginTop: '10px',  // Espacio entre imagen y botón
-                        padding: '10px 20px', // Ajuste opcional del botón
-                        display: 'inline-block',
-                        background: 'linear-gradient(to right, #BFC3FC, #A2C3FC)', // Gradient background
-                        width:'100%',
-                        fontSize:'14px',
-                        fontWeight:'400',
-                        color:'#4B4B4B'
-                        }}>Login</button>
-                    <div style={{marginTop:'10px'}} >Don't have account? 
-                        <Link to='/register' className='custom-link'>
-                          Sign up 
-                        </Link>
-                    </div>
-                </div>
-            </form>
-
-          </div>
-        </div>
-      </>    
-  )
-}
-
-export default Login
+export default Login;

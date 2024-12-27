@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const UseForm = ({ initialState = {} }) => {
-    const [datosFormulario, setDatosFormulario] = useState({initialState});//recibe un objeto sin definir
-    
-    const handleChange = (e) => {
-        e.preventDefault();
-        console.log(e.target.value);
-        setDatosFormulario({ ...datosFormulario, [e.target.name]: e.target.value });//borre 
-    }
-    
-    const reset = ()=>{
-        setDatosFormulario(initialState);//le asigna el dato inicial
-    }
+  const [datosFormulario, setDatosFormulario] = useState(initialState);
 
-    return [datosFormulario, handleChange, reset]//array
-}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDatosFormulario({ ...datosFormulario, [name]: value });
+  };
 
+  const reset = () => {
+    setDatosFormulario(initialState);
+  };
 
-export default UseForm
+  return [datosFormulario, handleChange, reset];
+};
+
+export default UseForm;

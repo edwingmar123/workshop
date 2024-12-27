@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import urlProductos from "../constants/Constante";
+import { db } from "../data/db";
 import { Typography } from "@mui/material";
 
-
 import Footers from "../components/Footers";
+
 function Landing() {
-  const { collection, loading, error } = urlProductos();
+  const collection = db.collection; 
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");
 
-  localStorage.setItem('collections', JSON.stringify(collection))
-
-  
-
   useEffect(() => {
     if (collection.length > 0) {
-      setSelectedProduct(collection[0]);
-      setSelectedImage(collection[0].imagen_1);
+      const initialProduct = collection[0];
+      setSelectedProduct(initialProduct);
+      setSelectedImage(initialProduct.imagen_1);
     }
   }, [collection]);
 
@@ -31,8 +28,6 @@ function Landing() {
     setQuantity(0);
   };
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error}</p>;
   if (collection.length === 0) return <p>No hay productos disponibles.</p>;
 
   const totalPrice = quantity * (selectedProduct.precio || 0);
@@ -56,7 +51,7 @@ function Landing() {
               <img
                 key={index}
                 src={src}
-                alt={"Imagen ${index + 1}"}
+                alt={`Imagen${index + 1}`}
                 className="thumbnail"
                 onClick={() => handleImageClick(src)}
               />
@@ -90,16 +85,14 @@ function Landing() {
               </button>
             ))}
           </div>
-
-          <div className="cart-info">
-           
-            <div className="tipo-Vertical">
             
+          <div className="cart-info">
+            <div className="tipo-Vertical">
               {collection.map((item, index) => (
                 <img
                   key={index}
                   src={item.imagen_1}
-                  alt={"Imagen del producto ${index + 1}"}
+                  alt={`Imagen del producto ${index + 1}`}
                   className="thumbnail"
                   onClick={() => handleProductClick(item)}
                 />
